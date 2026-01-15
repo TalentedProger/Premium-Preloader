@@ -47,19 +47,36 @@ export function Preloader({ onComplete }: PreloaderProps) {
           {/* Noise Texture Overlay */}
           <div className="absolute inset-0 noise-bg z-[51] opacity-30 mix-blend-overlay pointer-events-none" />
 
-          {/* Top Line - Left to Right */}
-          <div className="absolute top-0 left-0 w-full h-[1px] bg-white/10 overflow-hidden z-[52]">
-            <motion.div 
-              className="h-full bg-white shadow-[0_0_15px_rgba(255,255,255,0.8)]"
-              initial={{ x: "-100%" }}
-              animate={{ x: "100%" }}
-              transition={{ 
-                repeat: Infinity, 
-                duration: 2, 
-                ease: "linear",
-              }}
-              style={{ width: "50%" }}
-            />
+          {/* Top Line & Text - Left to Right */}
+          <div className="absolute top-4 left-0 w-full z-[52] flex flex-col gap-2">
+            <div className="w-full overflow-hidden whitespace-nowrap py-1">
+              <motion.div 
+                className="inline-block text-white/40 font-mono text-sm tracking-[0.3em] uppercase"
+                animate={{ x: [0, -1000] }}
+                transition={{ 
+                  repeat: Infinity, 
+                  duration: 20, 
+                  ease: "linear",
+                }}
+              >
+                {Array(20).fill("LOADING").join("    ")}
+                {"    "}
+                {Array(20).fill("LOADING").join("    ")}
+              </motion.div>
+            </div>
+            <div className="w-full h-[1px] bg-white/10 overflow-hidden relative">
+              <motion.div 
+                className="absolute inset-0 bg-white shadow-[0_0_15px_rgba(255,255,255,0.8)]"
+                initial={{ x: "-100%" }}
+                animate={{ x: "100%" }}
+                transition={{ 
+                  repeat: Infinity, 
+                  duration: 2, 
+                  ease: "linear",
+                }}
+                style={{ width: "50%" }}
+              />
+            </div>
           </div>
 
           {/* Center Dynamic Text */}
@@ -83,20 +100,37 @@ export function Preloader({ onComplete }: PreloaderProps) {
             </div>
           </div>
 
-          {/* Bottom Line - Left to Right */}
-          <div className="absolute bottom-0 left-0 w-full h-[1px] bg-white/10 overflow-hidden z-[52]">
-             <motion.div 
-              className="h-full bg-white shadow-[0_0_15px_rgba(255,255,255,0.8)]"
-              initial={{ x: "-100%" }}
-              animate={{ x: "100%" }}
-              transition={{ 
-                repeat: Infinity, 
-                duration: 2, 
-                ease: "linear",
-                delay: 1 // Offset timing slightly from top
-              }}
-              style={{ width: "50%" }}
-            />
+          {/* Bottom Line & Text - Left to Right */}
+          <div className="absolute bottom-4 left-0 w-full z-[52] flex flex-col-reverse gap-2">
+            <div className="w-full overflow-hidden whitespace-nowrap py-1">
+              <motion.div 
+                className="inline-block text-white/40 font-mono text-sm tracking-[0.3em] uppercase"
+                animate={{ x: [0, -1000] }}
+                transition={{ 
+                  repeat: Infinity, 
+                  duration: 20, 
+                  ease: "linear",
+                }}
+              >
+                {Array(20).fill("LOADING").join("    ")}
+                {"    "}
+                {Array(20).fill("LOADING").join("    ")}
+              </motion.div>
+            </div>
+            <div className="w-full h-[1px] bg-white/10 overflow-hidden relative">
+              <motion.div 
+                className="absolute inset-0 bg-white shadow-[0_0_15px_rgba(255,255,255,0.8)]"
+                initial={{ x: "-100%" }}
+                animate={{ x: "100%" }}
+                transition={{ 
+                  repeat: Infinity, 
+                  duration: 2, 
+                  ease: "linear",
+                  delay: 1 // Offset timing slightly from top
+                }}
+                style={{ width: "50%" }}
+              />
+            </div>
           </div>
         </motion.div>
       )}
