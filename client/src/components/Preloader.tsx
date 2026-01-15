@@ -48,7 +48,11 @@ export function Preloader({ onComplete }: PreloaderProps) {
           <div className="absolute inset-0 noise-bg z-[51] opacity-30 mix-blend-overlay pointer-events-none" />
 
           {/* Top Line & Text - Left to Right */}
-          <div className="absolute top-4 left-0 w-full z-[52] flex flex-col gap-2">
+          <motion.div 
+            animate={{ opacity: progress >= 100 ? 0 : 1 }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+            className="absolute top-4 left-0 w-full z-[52] flex flex-col gap-2"
+          >
             <div className="w-full overflow-hidden whitespace-nowrap py-1">
               <motion.div 
                 className="inline-block text-white/40 font-mono text-2xl sm:text-3xl md:text-4xl tracking-[0.3em] uppercase"
@@ -77,10 +81,10 @@ export function Preloader({ onComplete }: PreloaderProps) {
                 style={{ width: "50%" }}
               />
             </div>
-          </div>
+          </motion.div>
 
           {/* Center Dynamic Text */}
-          <div className="relative z-[55] font-mono font-bold tracking-tighter select-none">
+          <div className="relative z-[55] font-mono font-bold tracking-tighter select-none flex flex-col items-center">
             <div 
               className={cn(
                 "text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[12rem]",
@@ -98,10 +102,25 @@ export function Preloader({ onComplete }: PreloaderProps) {
             >
               {progress}%
             </div>
+            
+            {/* Elegant Underline */}
+            <motion.div
+              initial={{ width: 0, opacity: 0 }}
+              animate={{ 
+                width: progress >= 100 ? "100%" : 0, 
+                opacity: progress >= 100 ? 1 : 0 
+              }}
+              transition={{ duration: 0.8, ease: "circOut" }}
+              className="h-[2px] bg-white mt-4 shadow-[0_0_20px_rgba(255,255,255,0.5)]"
+            />
           </div>
 
           {/* Bottom Line & Text - Left to Right */}
-          <div className="absolute bottom-4 left-0 w-full z-[52] flex flex-col-reverse gap-2">
+          <motion.div 
+            animate={{ opacity: progress >= 100 ? 0 : 1 }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+            className="absolute bottom-4 left-0 w-full z-[52] flex flex-col-reverse gap-2"
+          >
             <div className="w-full overflow-hidden whitespace-nowrap py-1">
               <motion.div 
                 className="inline-block text-white/40 font-mono text-2xl sm:text-3xl md:text-4xl tracking-[0.3em] uppercase"
@@ -131,7 +150,7 @@ export function Preloader({ onComplete }: PreloaderProps) {
                 style={{ width: "50%" }}
               />
             </div>
-          </div>
+          </motion.div>
         </motion.div>
       )}
     </AnimatePresence>
