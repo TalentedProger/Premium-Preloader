@@ -49,8 +49,10 @@ export function Preloader({ onComplete }: PreloaderProps) {
 
           {/* Top Line & Text - Left to Right */}
           <motion.div 
-            animate={{ opacity: progress >= 100 ? 0 : 1 }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
+            animate={{ 
+              opacity: progress >= 80 ? Math.max(0, 1 - (progress - 80) / 20) : 1 
+            }}
+            transition={{ duration: 0.2, ease: "linear" }}
             className="absolute top-4 left-0 w-full z-[52] flex flex-col gap-2"
           >
             <div className="w-full overflow-hidden whitespace-nowrap py-1">
@@ -87,9 +89,10 @@ export function Preloader({ onComplete }: PreloaderProps) {
           <div className="relative z-[55] font-mono font-bold tracking-tighter select-none flex flex-col items-center">
             <motion.div 
               animate={{ 
-                scale: progress >= 90 ? 1 + ((progress - 90) / 10) * 0.1 : 1 
+                scale: progress >= 80 ? 1 + ((progress - 80) / 20) * 0.15 : 1,
+                filter: progress >= 100 ? "drop-shadow(0 0 20px rgba(255,255,255,0.8))" : "drop-shadow(0 0 0px rgba(255,255,255,0))"
               }}
-              transition={{ duration: 0.3, ease: "linear" }}
+              transition={{ duration: 0.2, ease: "linear" }}
               className={cn(
                 "text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[12rem]",
                 "transition-all duration-300 leading-none",
@@ -111,10 +114,10 @@ export function Preloader({ onComplete }: PreloaderProps) {
               <motion.div
                 initial={{ scaleX: 0, opacity: 0 }}
                 animate={{ 
-                  scaleX: progress >= 90 ? (progress - 90) / 10 : 0, 
-                  opacity: progress >= 90 ? 1 : 0 
+                  scaleX: progress >= 80 ? (progress - 80) / 20 : 0, 
+                  opacity: progress >= 80 ? 1 : 0 
                 }}
-                transition={{ duration: 0.3, ease: "linear" }}
+                transition={{ duration: 0.2, ease: "linear" }}
                 className="h-[2px] bg-white mt-4 shadow-[0_0_20px_rgba(255,255,255,0.5)] origin-center"
               />
             </div>
@@ -122,8 +125,10 @@ export function Preloader({ onComplete }: PreloaderProps) {
 
           {/* Bottom Line & Text - Left to Right */}
           <motion.div 
-            animate={{ opacity: progress >= 100 ? 0 : 1 }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
+            animate={{ 
+              opacity: progress >= 80 ? Math.max(0, 1 - (progress - 80) / 20) : 1 
+            }}
+            transition={{ duration: 0.2, ease: "linear" }}
             className="absolute bottom-4 left-0 w-full z-[52] flex flex-col-reverse gap-2"
           >
             <div className="w-full overflow-hidden whitespace-nowrap py-1">
