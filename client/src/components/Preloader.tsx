@@ -51,7 +51,7 @@ export function Preloader({ onComplete }: PreloaderProps) {
           <div className="absolute top-4 left-0 w-full z-[52] flex flex-col gap-2">
             <div className="w-full overflow-hidden whitespace-nowrap py-1">
               <motion.div 
-                className="inline-block text-white/40 font-mono text-sm tracking-[0.3em] uppercase"
+                className="inline-block text-white/40 font-mono text-2xl sm:text-3xl md:text-4xl tracking-[0.3em] uppercase"
                 animate={{ x: [0, -1000] }}
                 transition={{ 
                   repeat: Infinity, 
@@ -59,9 +59,9 @@ export function Preloader({ onComplete }: PreloaderProps) {
                   ease: "linear",
                 }}
               >
-                {Array(20).fill("LOADING").join("    ")}
+                {Array(10).fill("LOADING").join("    ")}
                 {"    "}
-                {Array(20).fill("LOADING").join("    ")}
+                {Array(10).fill("LOADING").join("    ")}
               </motion.div>
             </div>
             <div className="w-full h-[1px] bg-white/10 overflow-hidden relative">
@@ -104,7 +104,7 @@ export function Preloader({ onComplete }: PreloaderProps) {
           <div className="absolute bottom-4 left-0 w-full z-[52] flex flex-col-reverse gap-2">
             <div className="w-full overflow-hidden whitespace-nowrap py-1">
               <motion.div 
-                className="inline-block text-white/40 font-mono text-sm tracking-[0.3em] uppercase"
+                className="inline-block text-white/40 font-mono text-2xl sm:text-3xl md:text-4xl tracking-[0.3em] uppercase"
                 animate={{ x: [0, -1000] }}
                 transition={{ 
                   repeat: Infinity, 
@@ -112,9 +112,9 @@ export function Preloader({ onComplete }: PreloaderProps) {
                   ease: "linear",
                 }}
               >
-                {Array(20).fill("LOADING").join("    ")}
+                {Array(10).fill("LOADING").join("    ")}
                 {"    "}
-                {Array(20).fill("LOADING").join("    ")}
+                {Array(10).fill("LOADING").join("    ")}
               </motion.div>
             </div>
             <div className="w-full h-[1px] bg-white/10 overflow-hidden relative">
