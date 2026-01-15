@@ -88,9 +88,16 @@ export function Preloader({ onComplete }: PreloaderProps) {
           {/* Center Dynamic Text */}
           <div className="relative z-[55] font-mono font-bold tracking-tighter select-none flex flex-col items-center">
             <motion.div 
-              animate={{ 
+              style={{
                 scale: progress >= 80 ? 1 + ((progress - 80) / 20) * 0.15 : 1,
-                filter: progress >= 100 ? "drop-shadow(0 0 20px rgba(255,255,255,0.8))" : "drop-shadow(0 0 0px rgba(255,255,255,0))"
+                backgroundImage: `linear-gradient(to top, white ${progress}%, transparent ${progress}%)`,
+                backgroundClip: "text",
+                WebkitBackgroundClip: "text",
+                backgroundSize: "100% 100%",
+                WebkitTextFillColor: "transparent", 
+              }}
+              animate={{ 
+                filter: progress >= 100 ? "drop-shadow(0 0 10px rgba(255,255,255,0.4))" : "drop-shadow(0 0 0px rgba(255,255,255,0))"
               }}
               transition={{ duration: 0.2, ease: "linear" }}
               className={cn(
@@ -98,29 +105,9 @@ export function Preloader({ onComplete }: PreloaderProps) {
                 "transition-all duration-300 leading-none",
                 "text-transparent text-stroke-1 md:text-stroke-2"
               )}
-              style={{
-                backgroundImage: `linear-gradient(to top, white ${progress}%, transparent ${progress}%)`,
-                backgroundClip: "text",
-                WebkitBackgroundClip: "text",
-                backgroundSize: "100% 100%",
-                WebkitTextFillColor: "transparent", 
-              }}
             >
               {progress}%
             </motion.div>
-            
-            {/* Elegant Underline */}
-            <div className="w-full max-w-[12rem] sm:max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl px-4">
-              <motion.div
-                initial={{ scaleX: 0, opacity: 0 }}
-                animate={{ 
-                  scaleX: progress >= 80 ? (progress - 80) / 20 : 0, 
-                  opacity: progress >= 80 ? 1 : 0 
-                }}
-                transition={{ duration: 0.2, ease: "linear" }}
-                className="h-[2px] bg-white mt-4 shadow-[0_0_20px_rgba(255,255,255,0.5)] origin-center"
-              />
-            </div>
           </div>
 
           {/* Bottom Line & Text - Left to Right */}
