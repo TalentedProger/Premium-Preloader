@@ -85,7 +85,11 @@ export function Preloader({ onComplete }: PreloaderProps) {
 
           {/* Center Dynamic Text */}
           <div className="relative z-[55] font-mono font-bold tracking-tighter select-none flex flex-col items-center">
-            <div 
+            <motion.div 
+              animate={{ 
+                scale: progress >= 90 ? 1 + ((progress - 90) / 10) * 0.1 : 1 
+              }}
+              transition={{ duration: 0.3, ease: "linear" }}
               className={cn(
                 "text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[12rem]",
                 "transition-all duration-300 leading-none",
@@ -96,23 +100,24 @@ export function Preloader({ onComplete }: PreloaderProps) {
                 backgroundClip: "text",
                 WebkitBackgroundClip: "text",
                 backgroundSize: "100% 100%",
-                // Ensuring the stroke remains visible while the fill animates
                 WebkitTextFillColor: "transparent", 
               }}
             >
               {progress}%
-            </div>
+            </motion.div>
             
             {/* Elegant Underline */}
-            <motion.div
-              initial={{ width: 0, opacity: 0 }}
-              animate={{ 
-                width: progress >= 100 ? "100%" : 0, 
-                opacity: progress >= 100 ? 1 : 0 
-              }}
-              transition={{ duration: 0.8, ease: "circOut" }}
-              className="h-[2px] bg-white mt-4 shadow-[0_0_20px_rgba(255,255,255,0.5)]"
-            />
+            <div className="w-full max-w-[12rem] sm:max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl px-4">
+              <motion.div
+                initial={{ scaleX: 0, opacity: 0 }}
+                animate={{ 
+                  scaleX: progress >= 90 ? (progress - 90) / 10 : 0, 
+                  opacity: progress >= 90 ? 1 : 0 
+                }}
+                transition={{ duration: 0.3, ease: "linear" }}
+                className="h-[2px] bg-white mt-4 shadow-[0_0_20px_rgba(255,255,255,0.5)] origin-center"
+              />
+            </div>
           </div>
 
           {/* Bottom Line & Text - Left to Right */}
