@@ -97,7 +97,9 @@ export function Preloader({ onComplete }: PreloaderProps) {
                 WebkitTextFillColor: "transparent", 
               }}
               animate={{ 
-                filter: progress >= 100 ? "drop-shadow(0 0 10px rgba(255,255,255,0.4))" : "drop-shadow(0 0 0px rgba(255,255,255,0))"
+                filter: progress >= 100 
+                  ? "drop-shadow(0 0 5px rgba(255,255,255,0.3)) drop-shadow(0 4px 12px rgba(0,0,0,0.5))" 
+                  : "drop-shadow(0 0 0px rgba(255,255,255,0)) drop-shadow(0 0px 0px rgba(0,0,0,0))"
               }}
               transition={{ duration: 0.2, ease: "linear" }}
               className={cn(
@@ -108,6 +110,19 @@ export function Preloader({ onComplete }: PreloaderProps) {
             >
               {progress}%
             </motion.div>
+
+            {/* Elegant Underline appearing at 100% */}
+            <div className="w-full max-w-[12rem] sm:max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl px-4">
+              <motion.div
+                initial={{ scaleX: 0, opacity: 0 }}
+                animate={{ 
+                  scaleX: progress >= 100 ? 1 : 0, 
+                  opacity: progress >= 100 ? 1 : 0 
+                }}
+                transition={{ duration: 0.6, ease: "circOut" }}
+                className="h-[2px] bg-white mt-4 shadow-[0_0_15px_rgba(255,255,255,0.6)] origin-center"
+              />
+            </div>
           </div>
 
           {/* Bottom Line & Text - Left to Right */}
