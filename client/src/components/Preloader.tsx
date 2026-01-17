@@ -1,6 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+
+import startBg from "@images/image_start.png";
+import endBg from "@images/image_end.png";
 
 interface PreloaderProps {
   onComplete: () => void;
@@ -9,31 +12,48 @@ interface PreloaderProps {
 export function Preloader({ onComplete }: PreloaderProps) {
   const [progress, setProgress] = useState(0);
   const [isExiting, setIsExiting] = useState(false);
+  const [isReady, setIsReady] = useState(false);
+  const startTimeRef = useRef(Date.now());
 
   useEffect(() => {
-    // Simulate loading process
-    const duration = 3500; // 3.5 seconds total load time
+    // Mark as ready when component mounts (simulating page load)
+    const readyTimer = setTimeout(() => {
+      setIsReady(true);
+    }, 100);
+
+    // Minimum duration: 3 seconds
+    const minDuration = 3000;
     const intervalTime = 30;
-    const steps = duration / intervalTime;
+    const minSteps = minDuration / intervalTime;
     let currentStep = 0;
 
     const timer = setInterval(() => {
       currentStep++;
-      const nextProgress = Math.min(Math.round((currentStep / steps) * 100), 100);
+      const elapsed = Date.now() - startTimeRef.current;
+      
+      // Progress based on minimum time OR actual loading time, whichever is longer
+      const timeBasedProgress = Math.min((elapsed / minDuration) * 100, 100);
+      const nextProgress = Math.round(timeBasedProgress);
       
       setProgress(nextProgress);
 
-      if (currentStep >= steps) {
+      // Only complete when both conditions are met:
+      // 1. Minimum time has passed (3 seconds)
+      // 2. Page is ready
+      if (elapsed >= minDuration && isReady && nextProgress >= 100) {
         clearInterval(timer);
         setTimeout(() => {
           setIsExiting(true);
-          setTimeout(onComplete, 800); // Wait for exit animation
+          setTimeout(onComplete, 800);
         }, 500);
       }
     }, intervalTime);
 
-    return () => clearInterval(timer);
-  }, [onComplete]);
+    return () => {
+      clearInterval(timer);
+      clearTimeout(readyTimer);
+    };
+  }, [onComplete, isReady]);
 
   return (
     <AnimatePresence>
@@ -42,8 +62,27 @@ export function Preloader({ onComplete }: PreloaderProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0, transition: { duration: 0.8, ease: "easeInOut" } }}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-2xl overflow-hidden"
+          className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden"
         >
+          {/* Background Layer 1: Start Image */}
+          <div 
+            className="absolute inset-0 z-0 bg-cover bg-center"
+            style={{ backgroundImage: `url(${startBg})` }}
+          />
+
+          {/* Background Layer 2: End Image (Fades in from 80%) */}
+          <motion.div 
+            className="absolute inset-0 z-1 bg-cover bg-center"
+            style={{ backgroundImage: `url(${endBg})` }}
+            animate={{ 
+              opacity: progress >= 80 ? (progress - 80) / 20 : 0 
+            }}
+            transition={{ duration: 0.2, ease: "linear" }}
+          />
+
+          {/* Glass Overlay (Backdrop Blur stays constant) */}
+          <div className="absolute inset-0 z-[10] bg-black/40 backdrop-blur-2xl" />
+
           {/* Noise Texture Overlay */}
           <div className="absolute inset-0 noise-bg z-[51] opacity-30 mix-blend-overlay pointer-events-none" />
 
@@ -126,7 +165,7 @@ export function Preloader({ onComplete }: PreloaderProps) {
                 animate={{ x: [0, -1000] }}
                 transition={{ 
                   repeat: Infinity, 
-                  duration: 20, 
+                  duration: 2, 
                   ease: "linear",
                 }}
               >
@@ -144,7 +183,7 @@ export function Preloader({ onComplete }: PreloaderProps) {
                   repeat: Infinity, 
                   duration: 2, 
                   ease: "linear",
-                  delay: 1 // Offset timing slightly from top
+                  delay: 1
                 }}
                 style={{ width: "50%" }}
               />
